@@ -21,38 +21,32 @@ const styles = theme => ({
   table: {
     minWidth: 1080
   }
-})
+});
 
 
-const customers = [
-  {
-  'id' : 1,
-  'image' : 'https://placeimg.com/64/64/1', 
-  'name' : '김길동',
-  'birthday' : '970218',
-  'gender' : '남자',
-  'job' : '학생',
-},
-{
-  'id' : 2,
-  'image' : 'https://placeimg.com/64/64/2', 
-  'name' : '홍길동',
-  'birthday' : '970328',
-  'gender' : '남자',
-  'job' : '프로그래머',
-},
-{
-  'id' : 3,
-  'image' : 'https://placeimg.com/64/64/3', 
-  'name' : '이길동',
-  'birthday' : '950228',
-  'gender' : '남자',
-  'job' : '디자이너',
-}
-]
 
 class App extends Component {
+
+  //state는 component내에서 변경될 수 있는 변수를 처리할 때 사용.
+  state = {
+    customers: ""
+  }
+
+  //api 서버에 접근해서 데이터를 받아올 때 사용
+  componentDidMount() {
+    this.callApi()
+      .then(res => this.setState({customers : res}))
+      .catch(err => console.log(err));
+  }
+
+  callApi = async() => {
+    const response = await fetch('/api/customers');
+    const body = await response.json();
+    return body;
+  }
+
   render() {
+    //props는 변경될 수 없는 데이터를 명시할때 사용.
     const { classes } = this.props;
   return (
     <Paper className={classes.root}> 
@@ -69,7 +63,7 @@ class App extends Component {
         </TableHead>
 
         <TableBody>
-        { customers.map(c => {
+        { this.state.customers ? this.state.customers.map(c => {
           return ( 
           <Customer
             key={c.id}
@@ -80,7 +74,7 @@ class App extends Component {
             gender={c.gender}
             job={c.job}
           />);
-        })
+        }) : ""
         }
         </TableBody>
       </Table>
