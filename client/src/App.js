@@ -2,6 +2,7 @@
 import './App.css';
 import React, { Component } from 'react';
 import Customer from './components/Customer';
+import CustomerAdd from './components/CustomerAdd';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
@@ -60,6 +61,7 @@ class App extends Component {
     //props는 변경될 수 없는 데이터를 명시할때 사용.
     const { classes } = this.props;
   return (
+    <div>
     <Paper className={classes.root}> 
       <Table className={classes.table}>
         <TableHead>
@@ -96,6 +98,10 @@ class App extends Component {
       </Table>
     
     </Paper>
+    <CustomerAdd/>
+    </div>
+
+
   );
   }
 }
