@@ -32,10 +32,22 @@ const styles = theme => ({
 
 class App extends Component {
 
-  //state는 component내에서 변경될 수 있는 변수를 처리할 때 사용.
-  state = {
-    customers: "",
-    completed: 0
+  constructor(props) {
+    super(props);
+    this.state = {
+      customers:'',
+      completed: 0 
+    }
+  }
+
+  stateRefresh = () => {
+    this.setState({
+      customers:'',
+      completed: 0 
+    });
+    this.callApi()
+      .then(res => this.setState({customers : res}))
+      .catch(err => console.log(err));
   }
 
   //api 서버에 접근해서 데이터를 받아올 때 사용
@@ -98,7 +110,7 @@ class App extends Component {
       </Table>
     
     </Paper>
-    <CustomerAdd/>
+    <CustomerAdd stateRefresh={this.stateRefresh}/>
     </div>
 
 
